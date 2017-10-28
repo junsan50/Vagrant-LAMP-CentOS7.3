@@ -92,3 +92,21 @@ sudo firewall-cmd --add-service=http --zone=public --permanent
 sudo firewall-cmd --add-service=https --zone=public --permanent
 sudo firewall-cmd --reload
 
+### XDebug ###
+sudo su
+
+pecl channel-update pecl.php.net
+pecl install xdebug
+chmod 755 /usr/lib64/php/modules/xdebug.so
+
+echo 'zend_extension=/usr/lib64/php/modules/xdebug.so' >> /etc/php.ini
+echo 'xdebug.remote_enable=on' >> /etc/php.ini
+echo 'xdebug.remote_autostart=on' >> /etc/php.ini
+echo 'xdebug.remote_handler=dbgp' >> /etc/php.ini
+echo 'xdebug.remote_host=192.168.33.1' >> /etc/php.ini
+echo 'xdebug.remote_port=9001' >> /etc/php.ini
+echo 'xdebug.idekey="phpstorm"' >> /etc/php.ini
+
+systemctl restart httpd
+systemctl restart php-fpm
+
